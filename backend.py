@@ -23,8 +23,9 @@ from langchain_core.messages import (
     SystemMessage,
 )
 from langchain_groq import ChatGroq
-from tools.tavily_tool import tavily_search
+# from tools.tavily_tool import tavily_search
 from tools.flight_tool import search_flights
+from mcp_client_test import tavily_mcp_search
 # from mcp_client import tavily_mcp_search, aviation_mcp_call, extract_destination, forecast_mcp_search, weather_mcp_search
 
 
@@ -179,7 +180,7 @@ Return concise travel guidance.
 
 def hotel_agent(state: TravelState):
     query = f"Best hotels for {state['user_query']}"
-    hotel_results = tavily_search(query)
+    hotel_results = asyncio.run(tavily_mcp_search(query))
     # hotel_results = asyncio.run(tavily_mcp_search(query))
 
     return {
